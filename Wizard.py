@@ -3,10 +3,9 @@ from Player import RandomPlayer
 from random import seed, getstate
 
 
-class Wizard:
+class Wizard(object):
     """
-    This class contains all the game.
-    Create a Wizard instance with the number of players and run play.
+
     """
     NUM_CARDS = 60
 
@@ -21,6 +20,13 @@ class Wizard:
             self.players.append(RandomPlayer())
 
     def play(self):
+        """
+        Starts a game with the generated players.
+
+        Returns:
+            list: The scores for each player.
+
+        """
         # print("Playing a Wizard game!")
         for game_num in range(1, self.games_to_play+1):
             game = Game(game_num, self.players)

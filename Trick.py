@@ -1,7 +1,7 @@
 from Card import Card, is_new_winner
 
 
-class Trick:
+class Trick(object):
     def __init__(self, trump_card, players, first_player, played_cards):
         self.trump_card = trump_card
         self.players = players

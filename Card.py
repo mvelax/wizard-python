@@ -1,7 +1,7 @@
 from random import shuffle
 
 
-class Card:
+class Card(object):
 
     colors = ("White", "Green", "Red", "Blue", "Yellow")
 
@@ -22,7 +22,7 @@ class Card:
         return str(self)
 
 
-class Deck:
+class Deck(object):
 
     def __init__(self):
         self.cards = []

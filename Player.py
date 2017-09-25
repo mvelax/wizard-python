@@ -2,7 +2,7 @@ from random import shuffle
 from collections import Counter
 
 
-class Player:
+class Player(object):
 
     def __init__(self):
         self.hand = []

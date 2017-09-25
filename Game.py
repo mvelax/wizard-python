@@ -2,7 +2,7 @@ from Card import Deck, Card
 from Trick import Trick
 
 
-class Game:
+class Game(object):
 
     def __init__(self, game_num, players):
         self.game_num = game_num

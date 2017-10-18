@@ -1,5 +1,6 @@
-from random import shuffle
+from random import shuffle, randrange, choice
 from collections import Counter
+import Card
 
 
 class Player(object):
@@ -30,10 +31,10 @@ class Player(object):
             # Cannot follow suit, use ANY card.
             return self.hand
 
-    def play_card(self, trump, first, played):
+    def play_card(self, trump, first, played, players, played_in_game):
         raise NotImplementedError("This needs to be implemented by your Player class")
 
-    def get_prediction(self, trump, predictions):
+    def get_prediction(self, trump, predictions, players):
         raise NotImplementedError("This needs to be implemented by your Player class")
 
     def get_trump_color(self):
@@ -42,12 +43,19 @@ class Player(object):
     def set_score(self, score):
         self.score = score
 
+    def get_state(self):
+        return self.score, self.wins, self.prediction
+
+
 class RandomPlayer(Player):
+    """A completely random agent, it always chooses all
+    its actions randomly"""
 
     def __init__(self):
         super().__init__()
 
-    def play_card(self, trump, first, played):
+    def play_card(self, trump, first, played, players, played_in_game):
+        """Randomly play any VALID card"""
         possible_actions = super().get_playable_cards(first)
         if not isinstance(possible_actions, list):
             possible_actions = list(possible_actions)
@@ -57,10 +65,30 @@ class RandomPlayer(Player):
         # print("Playing card {} from {}".format(card_to_play, self.hand))
         return card_to_play
 
-    def get_prediction(self, trump, predictions):
-        return len(self.hand)//len(predictions)
+    def get_prediction(self, trump, predictions, players):
+        """Randomly return any number of wins between 0 and total number
+         of games.
+         """
+        return randrange(len(self.hand))
 
     def get_trump_color(self):
+        # Randomly return any color except white.
+        return choice(Card.Card.colors[1:])
+
+
+class AverageRandomPlayer(RandomPlayer):
+    """Agent that uses random cards, but chooses an 'average'
+    prediction of wins and a trump color corresponding to
+    the color the agent has the most of in its hand."""
+
+    def __init__(self):
+        super().__init__()
+
+    def get_prediction(self, trump, predictions, players):
+        return len(self.hand) // len(predictions)
+
+    def get_trump_color(self):
+        # Return the color the agent has the most of in its hand.
         color_counter = Counter()
         for card in self.hand:
             color = card.color

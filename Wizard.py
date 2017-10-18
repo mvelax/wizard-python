@@ -1,5 +1,5 @@
 from Game import Game
-from Player import RandomPlayer
+from Player import RandomPlayer, AverageRandomPlayer
 from random import seed, getstate
 
 
@@ -17,7 +17,7 @@ class Wizard(object):
         for player in range(num_players):
             # Initialize all players
             # print("Creating players.")
-            self.players.append(RandomPlayer())
+            self.players.append(AverageRandomPlayer())
 
     def play(self):
         """
@@ -34,7 +34,7 @@ class Wizard(object):
             for i in range(self.num_players):
                 self.scores[i] += score[i]
             # print("Scores: {}".format(self.scores))
-        # print("Final scores: {}".format(self.scores))
+        print("Final scores: {}".format(self.scores))
         return self.scores
 
 

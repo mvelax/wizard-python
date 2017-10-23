@@ -8,6 +8,7 @@ class Player(object):
     def __init__(self):
         self.hand = []
         self.score = 0
+        self.reward = 0
         self.wins = 0
         self.prediction = -1
 
@@ -40,11 +41,15 @@ class Player(object):
     def get_trump_color(self):
         raise NotImplementedError("This needs to be implemented by your Player class")
 
-    def set_score(self, score):
-        self.score = score
+    def give_reward(self, reward):
+        self.reward = reward
+        self.score += reward
 
     def get_state(self):
         return self.score, self.wins, self.prediction
+
+    def reset_score(self):
+        self.score = 0
 
 
 class RandomPlayer(Player):
@@ -55,7 +60,10 @@ class RandomPlayer(Player):
         super().__init__()
 
     def play_card(self, trump, first, played, players, played_in_game):
-        """Randomly play any VALID card"""
+        """Randomly play any VALID card.
+        Returns:
+            card_to_play: (Card) the chosen card from the player hand.
+            """
         possible_actions = super().get_playable_cards(first)
         if not isinstance(possible_actions, list):
             possible_actions = list(possible_actions)
@@ -69,7 +77,9 @@ class RandomPlayer(Player):
         """Randomly return any number of wins between 0 and total number
          of games.
          """
-        return randrange(len(self.hand))
+        prediction = randrange(len(self.hand))
+        self.prediction = prediction
+        return prediction
 
     def get_trump_color(self):
         # Randomly return any color except white.
@@ -85,7 +95,9 @@ class AverageRandomPlayer(RandomPlayer):
         super().__init__()
 
     def get_prediction(self, trump, predictions, players):
-        return len(self.hand) // len(predictions)
+        prediction = len(self.hand) // len(predictions)
+        self.prediction = prediction
+        return prediction
 
     def get_trump_color(self):
         # Return the color the agent has the most of in its hand.
@@ -95,4 +107,7 @@ class AverageRandomPlayer(RandomPlayer):
             if color == "White":
                 continue
             color_counter[color] += 1
-        return color_counter.most_common(1)[0][0]
+        if not color_counter.most_common(1):
+            return super().get_trump_color()
+        else:
+            return color_counter.most_common(1)[0][0]

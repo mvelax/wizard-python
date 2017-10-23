@@ -17,7 +17,7 @@ class Game(object):
         self.played_cards = []
 
     def play(self):
-        print("Playing game #{}".format(self.game_num))
+        #print("Playing game #{}".format(self.game_num))
         # New game, new deck. No played cards.
         self.played_cards = []
         self.trump_card = self.distribute_cards()[0]
@@ -50,7 +50,7 @@ class Game(object):
             # Update wins
             for i in range(len(self.players)):
                 self.players[i].wins = wins[i]
-            print("{} won the game!".format(winner))
+            #print("{} won the game!".format(winner))
         return self.get_scores(wins)
 
     def distribute_cards(self):
@@ -85,5 +85,5 @@ class Game(object):
                 scores[i] = 20 + wins[i]*10
             else:
                 scores[i] = -10*abs(difference)
-            self.players[i].set_score(scores[i])
+            self.players[i].give_reward(scores[i])
         return scores

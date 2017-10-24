@@ -94,15 +94,17 @@ class DQNEstimator(Estimator):
 
     def predict(self, s):
         if self.model is None:
+            print("Building NEW model.")
             self.model = self.build_and_compile_model(s)
         return self.model.predict(np.array(s)[np.newaxis, :])
 
     def predict_target(self, s):
         if self.target_model is None:
+            print("Copying model to target model.")
             self.target_model = self.build_and_compile_model(s)
             if self.model is not None:
                 self.update_target()
-        return self.model.predict(np.array(s)[np.newaxis, :])
+        return self.target_model.predict(np.array(s)[np.newaxis, :])
 
     def update_target(self):
         weights = self.model.get_weights()

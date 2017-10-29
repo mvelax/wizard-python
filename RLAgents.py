@@ -40,7 +40,8 @@ class RLAgent(AverageRandomPlayer):
             game, may be empty.
 
         Returns:
-
+            card_to_play: (Card) the card object that the player
+             decided to play.
         """
         state = self.featurizer.transform(self, trump, first, played, players,
                                           played_in_game)
@@ -60,7 +61,7 @@ class RLAgent(AverageRandomPlayer):
         card_to_play = self._remove_card_played(a)
         self.old_state = None if terminal else state
         self.old_action = a
-        self.give_reward(0) # After playing a card, the reward is 0.
+        self.give_reward(0)  # After playing a card, the reward is 0.
         # Unless it's the last card of the game, then the Game object will
         # call give_reward before the next play_card, setting the correct reward
         return card_to_play
@@ -82,7 +83,7 @@ class RLAgent(AverageRandomPlayer):
             but just remove one.
 
         Returns:
-            card_to_play: The card corresponding to the action/
+            card_to_play: The card corresponding to the action.
 
         Raises:
             RuntimeError when the action does not correspond to any card.

@@ -81,10 +81,10 @@ class Featurizer(object):
     @staticmethod
     def players_to_arr(players, player):
         """
-        Returns an array of the form [score1, win1, predict1, ...,
-        scorei, wini, predicti, scorePersonal, winPersonal, predictPersonal]
-        With the scores, wins and predictions of each player finally with the
-        score, wins and predictions of THIS player (player).
+        Returns an array of the form [win1, predict1, ...,
+        wini, predicti, winPersonal, predictPersonal]
+        With the wins and predictions of each player finally with the
+        wins and predictions of THIS player (player).
         -1 for any "non existent player".
 
         Args:

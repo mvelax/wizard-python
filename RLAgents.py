@@ -56,7 +56,7 @@ class RLAgent(AverageRandomPlayer):
             else:
                 self.estimator.update(self.old_state, self.old_action, r, state)
 
-        probs = self.policy.get_probabilities(state)
+        probs = self.policy.get_card_probabilities(state)
         a = np.random.choice(len(probs), p=probs)
         card_to_play = self._remove_card_played(a)
         self.old_state = None if terminal else state

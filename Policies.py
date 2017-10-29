@@ -11,7 +11,7 @@ class Policy(object):
         # In case we need to reset epsilon.
         self.original_epsilon = epsilon
 
-    def get_probabilities(self, x):
+    def get_card_probabilities(self, x):
         raise NotImplementedError("This needs to be implemented by"
                                   "your Policy class.")
 
@@ -65,7 +65,7 @@ class EGreedyPolicy(Policy):
     def __init__(self, estimator, epsilon):
         super().__init__(estimator, epsilon)
 
-    def get_probabilities(self, x):
+    def get_card_probabilities(self, x):
         """
         Returns the probabilities for each action
         Args:
